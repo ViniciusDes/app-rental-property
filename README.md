@@ -811,4 +811,5 @@ MIT License - feel free to use this project for learning!
 ---
 
 **Built with Next.js 14 + TypeScript + Tailwind CSS**
+
 **Standalone frontend application - requires separate backend API**
