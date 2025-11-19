@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Leaflet Map Component for Property Geolocation
@@ -10,24 +10,22 @@
  * - Integrates with filter system
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import type { Property } from '@/lib/types';
+import { useEffect, useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Circle,
+  useMapEvents,
+} from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import type { Property } from "@/lib/types";
 
 // Fix for default marker icon in Next.js
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-let DefaultIcon = L.icon({
-  iconUrl: icon.src,
-  shadowUrl: iconShadow.src,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
 interface PropertyMapProps {
   properties: Property[];
@@ -38,8 +36,16 @@ interface PropertyMapProps {
 }
 
 // Component to handle map clicks
-function MapClickHandler({ onLocationSelect, radius }: { onLocationSelect?: (lat: number, lng: number, radius: number) => void; radius: number }) {
-  const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null);
+function MapClickHandler({
+  onLocationSelect,
+  radius,
+}: {
+  onLocationSelect?: (lat: number, lng: number, radius: number) => void;
+  radius: number;
+}) {
+  const [selectedLocation, setSelectedLocation] = useState<
+    [number, number] | null
+  >(null);
 
   useMapEvents({
     click(e) {
@@ -57,14 +63,15 @@ function MapClickHandler({ onLocationSelect, radius }: { onLocationSelect?: (lat
     <>
       <Marker position={selectedLocation}>
         <Popup>
-          Search center<br />
+          Search center
+          <br />
           Radius: {radius}km
         </Popup>
       </Marker>
       <Circle
         center={selectedLocation}
         radius={radius * 1000} // Convert km to meters
-        pathOptions={{ color: 'blue', fillColor: 'blue', fillOpacity: 0.1 }}
+        pathOptions={{ color: "blue", fillColor: "blue", fillOpacity: 0.1 }}
       />
     </>
   );
@@ -81,6 +88,15 @@ export default function PropertyMap({
 
   // Only render map on client side
   useEffect(() => {
+    // Fix for default marker icon in Next.js (client-side only)
+    const DefaultIcon = L.icon({
+      iconUrl: icon.src,
+      shadowUrl: iconShadow.src,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
     setMounted(true);
   }, []);
 
@@ -97,7 +113,7 @@ export default function PropertyMap({
       <MapContainer
         center={center}
         zoom={zoom}
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: "100%", width: "100%" }}
         scrollWheelZoom={true}
       >
         <TileLayer
@@ -121,7 +137,9 @@ export default function PropertyMap({
                     className="w-full h-32 object-cover rounded mb-2"
                   />
                 )}
-                <p className="text-sm text-gray-600">{property.city}, {property.country}</p>
+                <p className="text-sm text-gray-600">
+                  {property.city}, {property.country}
+                </p>
                 <p className="text-sm font-semibold mt-2">
                   ${property.base_price_per_night}/night
                 </p>
@@ -146,7 +164,10 @@ export default function PropertyMap({
 
         {/* Click handler for location selection */}
         {onLocationSelect && (
-          <MapClickHandler onLocationSelect={onLocationSelect} radius={selectedRadius} />
+          <MapClickHandler
+            onLocationSelect={onLocationSelect}
+            radius={selectedRadius}
+          />
         )}
       </MapContainer>
     </div>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Property Filters Component
@@ -13,9 +13,9 @@
  * - Geolocation radius
  */
 
-import { useState, useEffect } from 'react';
-import type { PropertyFilters as Filters } from '@/lib/types';
-import { PROPERTY_TYPES, AMENITIES } from '@/lib/types';
+import { useState, useEffect } from "react";
+import type { PropertyFilters as Filters } from "@/lib/types";
+import { PROPERTY_TYPES, AMENITIES } from "@/lib/types";
 
 interface PropertyFiltersProps {
   filters: Filters;
@@ -35,11 +35,14 @@ export default function PropertyFilters({
   useEffect(() => {
     setLocalFilters(filters);
     if (filters.amenities) {
-      setSelectedAmenities(filters.amenities.split(','));
+      setSelectedAmenities(filters.amenities.split(","));
     }
   }, [filters]);
 
-  const handleChange = (key: keyof Filters, value: any) => {
+  const handleChange = (
+    key: keyof Filters,
+    value: number | string | undefined
+  ) => {
     const newFilters = { ...localFilters, [key]: value };
     setLocalFilters(newFilters);
     onFilterChange(newFilters);
@@ -47,11 +50,11 @@ export default function PropertyFilters({
 
   const handleAmenityToggle = (amenity: string) => {
     const newAmenities = selectedAmenities.includes(amenity)
-      ? selectedAmenities.filter(a => a !== amenity)
+      ? selectedAmenities.filter((a) => a !== amenity)
       : [...selectedAmenities, amenity];
 
     setSelectedAmenities(newAmenities);
-    handleChange('amenities', newAmenities.join(','));
+    handleChange("amenities", newAmenities.join(","));
   };
 
   const handleReset = () => {
@@ -81,8 +84,8 @@ export default function PropertyFilters({
         <input
           type="text"
           placeholder="Search properties..."
-          value={localFilters.search || ''}
-          onChange={(e) => handleChange('search', e.target.value)}
+          value={localFilters.search || ""}
+          onChange={(e) => handleChange("search", e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
@@ -93,8 +96,8 @@ export default function PropertyFilters({
           Property Type
         </label>
         <select
-          value={localFilters.property_type || ''}
-          onChange={(e) => handleChange('property_type', e.target.value)}
+          value={localFilters.property_type || ""}
+          onChange={(e) => handleChange("property_type", e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="">All Types</option>
@@ -115,8 +118,8 @@ export default function PropertyFilters({
           <input
             type="text"
             placeholder="e.g., Berlin"
-            value={localFilters.city || ''}
-            onChange={(e) => handleChange('city', e.target.value)}
+            value={localFilters.city || ""}
+            onChange={(e) => handleChange("city", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -127,8 +130,8 @@ export default function PropertyFilters({
           <input
             type="text"
             placeholder="e.g., Germany"
-            value={localFilters.country || ''}
-            onChange={(e) => handleChange('country', e.target.value)}
+            value={localFilters.country || ""}
+            onChange={(e) => handleChange("country", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -144,8 +147,13 @@ export default function PropertyFilters({
             <input
               type="number"
               placeholder="Min"
-              value={localFilters.min_price || ''}
-              onChange={(e) => handleChange('min_price', e.target.value ? Number(e.target.value) : undefined)}
+              value={localFilters.min_price || ""}
+              onChange={(e) =>
+                handleChange(
+                  "min_price",
+                  e.target.value ? Number(e.target.value) : undefined
+                )
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -153,8 +161,13 @@ export default function PropertyFilters({
             <input
               type="number"
               placeholder="Max"
-              value={localFilters.max_price || ''}
-              onChange={(e) => handleChange('max_price', e.target.value ? Number(e.target.value) : undefined)}
+              value={localFilters.max_price || ""}
+              onChange={(e) =>
+                handleChange(
+                  "max_price",
+                  e.target.value ? Number(e.target.value) : undefined
+                )
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -168,8 +181,13 @@ export default function PropertyFilters({
             Min Bedrooms
           </label>
           <select
-            value={localFilters.bedrooms__gte || ''}
-            onChange={(e) => handleChange('bedrooms__gte', e.target.value ? Number(e.target.value) : undefined)}
+            value={localFilters.bedrooms__gte || ""}
+            onChange={(e) =>
+              handleChange(
+                "bedrooms__gte",
+                e.target.value ? Number(e.target.value) : undefined
+              )
+            }
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Any</option>
@@ -185,8 +203,13 @@ export default function PropertyFilters({
             Min Bathrooms
           </label>
           <select
-            value={localFilters.bathrooms__gte || ''}
-            onChange={(e) => handleChange('bathrooms__gte', e.target.value ? Number(e.target.value) : undefined)}
+            value={localFilters.bathrooms__gte || ""}
+            onChange={(e) =>
+              handleChange(
+                "bathrooms__gte",
+                e.target.value ? Number(e.target.value) : undefined
+              )
+            }
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Any</option>
@@ -205,8 +228,13 @@ export default function PropertyFilters({
           Min Guests
         </label>
         <select
-          value={localFilters.max_guests || ''}
-          onChange={(e) => handleChange('max_guests', e.target.value ? Number(e.target.value) : undefined)}
+          value={localFilters.max_guests || ""}
+          onChange={(e) =>
+            handleChange(
+              "max_guests",
+              e.target.value ? Number(e.target.value) : undefined
+            )
+          }
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="">Any</option>
@@ -227,8 +255,8 @@ export default function PropertyFilters({
           <div>
             <input
               type="date"
-              value={localFilters.check_in || ''}
-              onChange={(e) => handleChange('check_in', e.target.value)}
+              value={localFilters.check_in || ""}
+              onChange={(e) => handleChange("check_in", e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Check-in"
             />
@@ -236,8 +264,8 @@ export default function PropertyFilters({
           <div>
             <input
               type="date"
-              value={localFilters.check_out || ''}
-              onChange={(e) => handleChange('check_out', e.target.value)}
+              value={localFilters.check_out || ""}
+              onChange={(e) => handleChange("check_out", e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Check-out"
             />
@@ -254,7 +282,12 @@ export default function PropertyFilters({
           <input
             type="number"
             value={localFilters.radius || 10}
-            onChange={(e) => handleChange('radius', e.target.value ? Number(e.target.value) : 10)}
+            onChange={(e) =>
+              handleChange(
+                "radius",
+                e.target.value ? Number(e.target.value) : 10
+              )
+            }
             min="1"
             max="100"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -294,8 +327,8 @@ export default function PropertyFilters({
           Sort By
         </label>
         <select
-          value={localFilters.ordering || ''}
-          onChange={(e) => handleChange('ordering', e.target.value)}
+          value={localFilters.ordering || ""}
+          onChange={(e) => handleChange("ordering", e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="">Newest First</option>
@@ -313,16 +346,19 @@ export default function PropertyFilters({
       {/* Active Filters Summary */}
       {Object.keys(localFilters).length > 1 && (
         <div className="pt-4 border-t border-gray-200">
-          <p className="text-sm font-medium text-gray-700 mb-2">Active Filters:</p>
+          <p className="text-sm font-medium text-gray-700 mb-2">
+            Active Filters:
+          </p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(localFilters).map(([key, value]) => {
-              if (!value || key === 'page_size') return null;
+              if (!value || key === "page_size") return null;
               return (
                 <span
                   key={key}
                   className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
                 >
-                  {key.replace(/__/g, ' ').replace(/_/g, ' ')}: {value.toString()}
+                  {key.replace(/__/g, " ").replace(/_/g, " ")}:{" "}
+                  {value.toString()}
                 </span>
               );
             })}

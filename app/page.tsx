@@ -12,11 +12,21 @@
  */
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { fetchProperties } from '@/lib/api';
 import type { Property, PropertyFilters as Filters } from '@/lib/types';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyFilters from '@/components/PropertyFilters';
-import PropertyMap from '@/components/PropertyMap';
+
+// Dynamically import PropertyMap to avoid SSR issues with Leaflet
+const PropertyMap = dynamic(() => import('@/components/PropertyMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[360px] bg-gray-200 rounded-lg flex items-center justify-center">
+      <p className="text-gray-600">Loading map...</p>
+    </div>
+  ),
+});
 
 export default function Home() {
   const [properties, setProperties] = useState<Property[]>([]);
